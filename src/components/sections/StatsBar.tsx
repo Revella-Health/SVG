@@ -39,7 +39,7 @@ function CountUp({ target, suffix }: { target: number; suffix: string }) {
 export default function StatsBar() {
   return (
     <div className="bg-white border-b border-border py-8">
-      <Container className="flex justify-center gap-16 flex-wrap">
+      <Container className="flex justify-center gap-8 lg:gap-16 flex-wrap">
         {STATS.map((s, i) => (
           <motion.div
             key={s.label}
