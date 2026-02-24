@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #002B5C;
+  --deep-navy: #001631;
+  --blue: #0052A5;
+  --gold: #FCD116;
+  --gold-dark: #D4A800;
+  --green: #009739;
+  --green-light: #E8F5ED;
+  --sand: #FAF7F2;
+  --cream: #FFFDF7;
+  --charcoal: #1C1C28;
+  --slate: #4A4A5A;
+  --muted: #8A8A9A;
+  --border: #E8E6E1;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--cream);
+  color: var(--charcoal);
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sand);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background: rgba(252, 209, 22, 0.3);
+  color: var(--deep-navy);
+}
+
+/* Scroll margin for anchor targets under fixed nav */
+[id] {
+  scroll-margin-top: 100px;
+}
+
+/* Input placeholder */
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+}

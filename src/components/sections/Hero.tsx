@@ -1,0 +1,126 @@
+"use client";
+
+import { motion } from "framer-motion";
+import Container from "@/components/ui/Container";
+import Button from "@/components/ui/Button";
+import SectionHeader from "@/components/ui/SectionHeader";
+
+const fadeUpItem = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, delay: 0.3 + i * 0.15, ease: [0.4, 0, 0.2, 1] as const },
+  }),
+};
+
+export default function Hero() {
+  return (
+    <section
+      id="home"
+      className="relative min-h-[85vh] flex items-center overflow-hidden"
+      style={{
+        background: "linear-gradient(135deg, #001631 0%, #002B5C 50%, #0052A5 100%)",
+      }}
+    >
+      {/* Background diamond pattern */}
+      <div className="absolute inset-0 opacity-[0.035]">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern
+              id="diamonds"
+              x="0"
+              y="0"
+              width="80"
+              height="80"
+              patternUnits="userSpaceOnUse"
+            >
+              <polygon
+                points="40,0 80,40 40,80 0,40"
+                fill="none"
+                stroke="white"
+                strokeWidth="0.5"
+              />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#diamonds)" />
+        </svg>
+      </div>
+
+      {/* Gold accent stripe */}
+      <div
+        className="absolute top-0 left-0 right-0 h-1 z-[2]"
+        style={{
+          background: "linear-gradient(90deg, #009739, #FCD116, #009739)",
+        }}
+      />
+
+      {/* Right-side image placeholder */}
+      <div
+        className="absolute right-0 top-0 bottom-0 w-[45%] hidden lg:flex items-center justify-center"
+        style={{
+          background: "linear-gradient(135deg, rgba(0,43,92,0.9), rgba(0,82,165,0.7))",
+          clipPath: "polygon(15% 0, 100% 0, 100% 100%, 0% 100%)",
+        }}
+      >
+        <div className="text-center opacity-20">
+          <div className="text-7xl mb-3">🏝️</div>
+          <div className="text-[13px] text-white tracking-[2px] uppercase">
+            Community Photo
+          </div>
+        </div>
+      </div>
+
+      <Container className="relative z-[3] pt-36 pb-20">
+        <div className="max-w-[560px]">
+          <motion.div
+            custom={0}
+            variants={fadeUpItem}
+            initial="hidden"
+            animate="visible"
+          >
+            <SectionHeader label="St. Vincent & the Grenadines" labelColor="#FCD116" />
+          </motion.div>
+
+          <motion.h1
+            custom={1}
+            variants={fadeUpItem}
+            initial="hidden"
+            animate="visible"
+            className="font-display text-[clamp(32px,5.5vw,56px)] font-extrabold text-white leading-[1.12] mb-5"
+          >
+            Helping Montreal&apos;s Vincentian community{" "}
+            <span className="text-gold italic">thrive together</span>
+          </motion.h1>
+
+          <motion.p
+            custom={2}
+            variants={fadeUpItem}
+            initial="hidden"
+            animate="visible"
+            className="text-[17px] text-white/[0.65] leading-relaxed mb-9 font-light"
+          >
+            Our mission is to connect, celebrate, and support the Vincentian
+            community through cultural events, advocacy, and mutual aid. Join us
+            in building a stronger future while preserving the heritage we love.
+          </motion.p>
+
+          <motion.div
+            custom={3}
+            variants={fadeUpItem}
+            initial="hidden"
+            animate="visible"
+            className="flex gap-3 flex-wrap"
+          >
+            <Button href="/events" variant="primary" arrow>
+              View Our Events
+            </Button>
+            <Button href="/membership" variant="secondary">
+              Become a Member
+            </Button>
+          </motion.div>
+        </div>
+      </Container>
+    </section>
+  );
+}
