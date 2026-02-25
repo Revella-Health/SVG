@@ -6,15 +6,37 @@ import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { fadeUp } from "@/lib/animations";
 
+// TODO: Replace with your real Formspree form ID for newsletter signups
+const FORMSPREE_URL = "https://formspree.io/f/YOUR_NEWSLETTER_FORM_ID";
+
 export default function NewsletterBanner() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubscribed(true);
-    setTimeout(() => setSubscribed(false), 3000);
-    setEmail("");
+    setSending(true);
+    setError("");
+
+    try {
+      const res = await fetch(FORMSPREE_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!res.ok) throw new Error("Failed to subscribe");
+
+      setSubscribed(true);
+      setEmail("");
+      setTimeout(() => setSubscribed(false), 3000);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -77,11 +99,15 @@ export default function NewsletterBanner() {
               />
               <button
                 type="submit"
-                className="bg-gold text-deep-navy font-bold text-sm py-3.5 px-7 rounded-md border-none cursor-pointer hover:bg-gold-dark transition-colors active:scale-[0.97]"
+                disabled={sending}
+                className="bg-gold text-deep-navy font-bold text-sm py-3.5 px-7 rounded-md border-none cursor-pointer hover:bg-gold-dark transition-colors active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Subscribe
+                {sending ? "Subscribing…" : "Subscribe"}
               </button>
             </form>
+            {error && (
+              <p className="text-sm text-red-400 mt-2">{error}</p>
+            )}
           </motion.div>
         )}
       </Container>

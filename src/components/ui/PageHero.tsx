@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
+import DiamondPattern from "@/components/ui/DiamondPattern";
 
 interface PageHeroProps {
   label: string;
@@ -18,28 +19,7 @@ export default function PageHero({ label, title, description }: PageHeroProps) {
       }}
     >
       {/* Diamond pattern */}
-      <div className="absolute inset-0 opacity-[0.035]">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern
-              id="hero-diamonds"
-              x="0"
-              y="0"
-              width="80"
-              height="80"
-              patternUnits="userSpaceOnUse"
-            >
-              <polygon
-                points="40,0 80,40 40,80 0,40"
-                fill="none"
-                stroke="white"
-                strokeWidth="0.5"
-              />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#hero-diamonds)" />
-        </svg>
-      </div>
+      <DiamondPattern id="page-hero-diamonds" />
 
       {/* Gold accent stripe */}
       <div

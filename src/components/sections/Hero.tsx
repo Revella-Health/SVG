@@ -5,6 +5,7 @@ import Image from "next/image";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import SectionHeader from "@/components/ui/SectionHeader";
+import DiamondPattern from "@/components/ui/DiamondPattern";
 
 const fadeUpItem = {
   hidden: { opacity: 0, y: 24 },
@@ -25,28 +26,7 @@ export default function Hero() {
       }}
     >
       {/* Background diamond pattern */}
-      <div className="absolute inset-0 opacity-[0.035]">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern
-              id="diamonds"
-              x="0"
-              y="0"
-              width="80"
-              height="80"
-              patternUnits="userSpaceOnUse"
-            >
-              <polygon
-                points="40,0 80,40 40,80 0,40"
-                fill="none"
-                stroke="white"
-                strokeWidth="0.5"
-              />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#diamonds)" />
-        </svg>
-      </div>
+      <DiamondPattern id="hero-diamonds" />
 
       {/* Gold accent stripe */}
       <div

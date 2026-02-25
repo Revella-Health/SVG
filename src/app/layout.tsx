@@ -25,7 +25,9 @@ const lora = Lora({
   weight: ["400", "500", "600"],
 });
 
+// TODO: Replace metadataBase with the real production domain
 export const metadata: Metadata = {
+  metadataBase: new URL("https://svgmontreal.ca"),
   title: "SVG Association of Montreal | St. Vincent & the Grenadines Community",
   description:
     "Connecting, celebrating, and supporting the Vincentian community in Montreal through cultural events, advocacy, and mutual aid.",
@@ -39,6 +41,20 @@ export const metadata: Metadata = {
     "association",
     "Vincentian",
   ],
+  openGraph: {
+    title: "SVG Association of Montreal",
+    description:
+      "Connecting, celebrating, and supporting the Vincentian community in Montreal through cultural events, advocacy, and mutual aid.",
+    type: "website",
+    locale: "en_CA",
+    siteName: "SVG Association of Montreal",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SVG Association of Montreal",
+    description:
+      "Connecting, celebrating, and supporting the Vincentian community in Montreal.",
+  },
 };
 
 export default function RootLayout({

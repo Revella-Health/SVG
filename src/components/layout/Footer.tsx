@@ -5,8 +5,11 @@ import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
-import { FOOTER_LINKS } from "@/lib/constants";
+import { FOOTER_LINKS, SOCIAL_LINKS, CONTACT_INFO } from "@/lib/constants";
 import { fadeUp, staggerContainer } from "@/lib/animations";
+
+const phone = CONTACT_INFO.find((c) => c.icon === "phone")?.lines[0] ?? "";
+const email = CONTACT_INFO.find((c) => c.icon === "email")?.lines[0] ?? "";
 
 export default function Footer() {
   return (
@@ -38,13 +41,13 @@ export default function Footer() {
               through culture, advocacy, and mutual aid.
             </p>
             <div className="flex gap-2.5">
-              {["Facebook", "Instagram", "YouTube"].map((s) => (
+              {(["facebook", "instagram", "youtube"] as const).map((key) => (
                 <a
-                  key={s}
-                  href="#"
+                  key={key}
+                  href={SOCIAL_LINKS[key]}
                   className="text-[11px] text-white/35 no-underline py-1.5 px-2.5 rounded border border-white/10 hover:text-white/70 hover:border-white/25 transition-all"
                 >
-                  {s}
+                  {key.charAt(0).toUpperCase() + key.slice(1)}
                 </a>
               ))}
             </div>
@@ -78,10 +81,10 @@ export default function Footer() {
             </div>
             <div className="text-[13px] text-white/45 space-y-2">
               <div className="flex items-center gap-2">
-                <Phone size={12} /> (514) 000-0000
+                <Phone size={12} /> {phone}
               </div>
               <div className="flex items-center gap-2">
-                <Mail size={12} /> info@svgmontreal.ca
+                <Mail size={12} /> {email}
               </div>
               <div className="flex items-center gap-2">
                 <MapPin size={12} /> Montreal, QC
@@ -100,15 +103,19 @@ export default function Footer() {
             Association of Montreal. All Rights Reserved.
           </div>
           <div className="flex gap-5">
-            {["Privacy Policy", "Terms"].map((link) => (
-              <a
-                key={link}
-                href="#"
-                className="text-xs text-white/25 no-underline hover:text-white/50 transition-colors"
-              >
-                {link}
-              </a>
-            ))}
+            {/* TODO: Create /privacy and /terms pages */}
+            <Link
+              href="/privacy"
+              className="text-xs text-white/25 no-underline hover:text-white/50 transition-colors"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/terms"
+              className="text-xs text-white/25 no-underline hover:text-white/50 transition-colors"
+            >
+              Terms
+            </Link>
           </div>
         </div>
       </Container>

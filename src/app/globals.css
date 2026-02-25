@@ -18,18 +18,6 @@
   --border: #E8E6E1;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 body {
   background: var(--cream);
   color: var(--charcoal);
@@ -66,7 +54,8 @@ body {
   color: var(--deep-navy);
 }
 
-/* Scroll margin for anchor targets under fixed nav */
+/* Scroll margin for anchor targets under fixed nav.
+   100px ≈ TopBar (33px) + Nav bar (64px) + 3px breathing room. */
 [id] {
   scroll-margin-top: 100px;
 }

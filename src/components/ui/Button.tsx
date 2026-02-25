@@ -6,15 +6,18 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 type Variant = "primary" | "secondary" | "outline" | "dark" | "green";
+type Size = "sm" | "default";
 
 interface ButtonProps {
   children: ReactNode;
   variant?: Variant;
+  size?: Size;
   href?: string;
   className?: string;
   arrow?: boolean;
   type?: "button" | "submit";
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 const variantStyles: Record<Variant, string> = {
@@ -30,24 +33,32 @@ const variantStyles: Record<Variant, string> = {
     "bg-green text-white font-semibold hover:brightness-110",
 };
 
+const sizeStyles: Record<Size, string> = {
+  sm: "px-5 py-2.5 text-[13px]",
+  default: "px-7 py-3.5 text-sm",
+};
+
 export default function Button({
   children,
   variant = "primary",
-  href = "#",
+  size = "default",
+  href,
   className = "",
   arrow = false,
   type,
   onClick,
+  disabled,
 }: ButtonProps) {
-  const baseClass = `inline-flex items-center gap-2 px-7 py-3.5 rounded-md text-sm tracking-wide transition-all duration-250 cursor-pointer no-underline ${variantStyles[variant]} ${className}`;
+  const baseClass = `inline-flex items-center gap-2 rounded-md tracking-wide transition-all duration-200 cursor-pointer no-underline ${sizeStyles[size]} ${variantStyles[variant]} ${className}`;
 
-  if (type) {
+  if (!href || type) {
     return (
       <motion.button
-        type={type}
+        type={type ?? "button"}
         whileTap={{ scale: 0.97 }}
         className={baseClass}
         onClick={onClick}
+        disabled={disabled}
       >
         {children}
         {arrow && <ArrowRight size={16} />}

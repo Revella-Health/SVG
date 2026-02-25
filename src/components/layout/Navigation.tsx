@@ -8,12 +8,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
-import { NAV_ITEMS } from "@/lib/constants";
+import { NAV_ITEMS, TOPBAR_HEIGHT } from "@/lib/constants";
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [focusedDropdown, setFocusedDropdown] = useState<string | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -38,14 +39,17 @@ export default function Navigation() {
     return pathname.startsWith(href.split("#")[0]);
   };
 
+  const isDropdownOpen = (id: string) =>
+    openDropdown === id || focusedDropdown === id;
+
   return (
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className="fixed left-0 right-0 z-[1000] backdrop-blur-2xl transition-all duration-350"
+      className="fixed left-0 right-0 z-[1000] backdrop-blur-2xl transition-all duration-300"
       style={{
-        top: scrolled ? 0 : 33,
+        top: scrolled ? 0 : TOPBAR_HEIGHT,
         background: scrolled ? "rgba(255,253,247,0.97)" : "rgba(0,22,49,0.85)",
         borderBottom: scrolled
           ? "1px solid #E8E6E1"
@@ -81,49 +85,58 @@ export default function Navigation() {
 
         {/* Desktop Links */}
         <div className="hidden lg:flex items-center gap-1 h-full">
-          {NAV_ITEMS.map((item) => (
-            <div
-              key={item.id}
-              className="relative h-full flex items-center"
-              onMouseEnter={() =>
-                "sub" in item && item.sub && setOpenDropdown(item.id)
-              }
-              onMouseLeave={() => setOpenDropdown(null)}
-            >
-              <Link
-                href={item.href}
-                className="flex items-center gap-1 px-3.5 py-2 rounded text-[13px] font-medium no-underline transition-all duration-200 hover:opacity-80"
-                style={{
-                  color: isActive(item.href)
-                    ? scrolled
-                      ? "#002B5C"
-                      : "#FCD116"
-                    : scrolled
-                    ? "#1C1C28"
-                    : "rgba(255,255,255,0.85)",
+          {NAV_ITEMS.map((item) => {
+            const hasSub = "sub" in item && item.sub;
+            return (
+              <div
+                key={item.id}
+                className="relative h-full flex items-center"
+                onMouseEnter={() => hasSub && setOpenDropdown(item.id)}
+                onMouseLeave={() => setOpenDropdown(null)}
+                onFocus={() => hasSub && setFocusedDropdown(item.id)}
+                onBlur={(e) => {
+                  if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                    setFocusedDropdown(null);
+                  }
                 }}
               >
-                {item.label}
-                {"sub" in item && item.sub && (
-                  <ChevronDown
-                    size={12}
-                    className="transition-transform duration-200"
-                    style={{
-                      color: scrolled ? "#8A8A9A" : "rgba(255,255,255,0.5)",
-                      transform:
-                        openDropdown === item.id
+                <Link
+                  href={item.href}
+                  className="flex items-center gap-1 px-3.5 py-2 rounded text-[13px] font-medium no-underline transition-all duration-200 hover:opacity-80"
+                  style={{
+                    color: isActive(item.href)
+                      ? scrolled
+                        ? "#002B5C"
+                        : "#FCD116"
+                      : scrolled
+                      ? "#1C1C28"
+                      : "rgba(255,255,255,0.85)",
+                  }}
+                  {...(hasSub
+                    ? {
+                        "aria-expanded": isDropdownOpen(item.id),
+                        "aria-haspopup": "true" as const,
+                      }
+                    : {})}
+                >
+                  {item.label}
+                  {hasSub && (
+                    <ChevronDown
+                      size={12}
+                      className="transition-transform duration-200"
+                      style={{
+                        color: scrolled ? "#8A8A9A" : "rgba(255,255,255,0.5)",
+                        transform: isDropdownOpen(item.id)
                           ? "rotate(180deg)"
                           : "rotate(0)",
-                    }}
-                  />
-                )}
-              </Link>
+                      }}
+                    />
+                  )}
+                </Link>
 
-              {/* Dropdown */}
-              <AnimatePresence>
-                {"sub" in item &&
-                  item.sub &&
-                  openDropdown === item.id && (
+                {/* Dropdown */}
+                <AnimatePresence>
+                  {hasSub && isDropdownOpen(item.id) && (
                     <motion.div
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -131,7 +144,7 @@ export default function Navigation() {
                       transition={{ duration: 0.2 }}
                       className="absolute top-full left-0 bg-white rounded-lg shadow-[0_12px_40px_rgba(0,0,0,0.12)] py-2 min-w-[200px] border border-border"
                     >
-                      {item.sub.map((sub) => (
+                      {item.sub!.map((sub) => (
                         <Link
                           key={sub.label}
                           href={sub.href}
@@ -142,14 +155,11 @@ export default function Navigation() {
                       ))}
                     </motion.div>
                   )}
-              </AnimatePresence>
-            </div>
-          ))}
-          <Button
-            href="/membership"
-            variant="primary"
-            className="ml-3 !px-5 !py-2.5 !text-[13px]"
-          >
+                </AnimatePresence>
+              </div>
+            );
+          })}
+          <Button href="/membership" variant="primary" size="sm" className="ml-3">
             Join Us
           </Button>
         </div>
@@ -194,18 +204,30 @@ export default function Navigation() {
           >
             <div className="px-6 py-4 pb-6">
               {NAV_ITEMS.map((item) => (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="block py-3 text-[15px] no-underline border-b border-border"
-                  style={{
-                    color: isActive(item.href) ? "#002B5C" : "#1C1C28",
-                    fontWeight: isActive(item.href) ? 600 : 400,
-                  }}
-                >
-                  {item.label}
-                </Link>
+                <div key={item.id}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="block py-3 text-[15px] no-underline border-b border-border"
+                    style={{
+                      color: isActive(item.href) ? "#002B5C" : "#1C1C28",
+                      fontWeight: isActive(item.href) ? 600 : 400,
+                    }}
+                  >
+                    {item.label}
+                  </Link>
+                  {"sub" in item &&
+                    item.sub?.map((sub) => (
+                      <Link
+                        key={sub.label}
+                        href={sub.href}
+                        onClick={() => setMobileOpen(false)}
+                        className="block py-2.5 pl-5 text-[13px] text-muted no-underline border-b border-border/50"
+                      >
+                        {sub.label}
+                      </Link>
+                    ))}
+                </div>
               ))}
               <div className="mt-4">
                 <Button href="/membership" variant="primary" className="w-full justify-center">

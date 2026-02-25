@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { NEWS_ARTICLES } from "@/lib/constants";
@@ -24,12 +25,12 @@ export default function News() {
               News &amp; Blog
             </motion.h2>
           </div>
-          <a
+          <Link
             href="/news"
             className="text-sm text-navy font-semibold no-underline flex items-center gap-1 hover:gap-2 transition-all"
           >
             Visit Newsroom <ArrowRight size={14} />
-          </a>
+          </Link>
         </div>
 
         <motion.div
@@ -39,15 +40,15 @@ export default function News() {
           viewport={{ once: true }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
         >
-          {NEWS_ARTICLES.map((a, i) => (
+          {NEWS_ARTICLES.map((a) => (
             <motion.div
-              key={i}
+              key={a.title}
               variants={fadeUp}
               whileHover={{
                 y: -4,
                 boxShadow: "0 12px 40px rgba(0,43,92,0.1)",
               }}
-              className="rounded-[10px] border border-border overflow-hidden bg-white shadow-[0_2px_12px_rgba(0,43,92,0.06)] cursor-pointer"
+              className="rounded-[10px] border border-border overflow-hidden bg-white shadow-[0_2px_12px_rgba(0,43,92,0.06)]"
             >
               {/* Image placeholder */}
               <div className="h-40 bg-gradient-to-br from-navy/[0.06] to-green/[0.04] flex items-center justify-center border-b border-border">
@@ -64,19 +65,10 @@ export default function News() {
                 <h4 className="font-display text-[17px] font-semibold text-charcoal mb-2 leading-snug">
                   {a.title}
                 </h4>
-                <p className="text-sm text-muted leading-relaxed mb-4">
+                <p className="text-sm text-muted leading-relaxed">
                   {a.excerpt}
                 </p>
-                <a
-                  href="#"
-                  className="text-[13px] text-navy font-semibold no-underline flex items-center gap-1 hover:gap-2 transition-all group"
-                >
-                  Read More{" "}
-                  <ArrowRight
-                    size={13}
-                    className="group-hover:translate-x-0.5 transition-transform"
-                  />
-                </a>
+                {/* TODO: Link to individual article pages once they exist */}
               </div>
             </motion.div>
           ))}

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { MapPin, ArrowRight } from "lucide-react";
+import Link from "next/link";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { EVENTS, TAG_COLORS } from "@/lib/constants";
@@ -22,12 +23,12 @@ export default function Events() {
           >
             Upcoming Events
           </motion.h2>
-          <a
+          <Link
             href="/events"
             className="text-sm text-navy font-semibold no-underline flex items-center gap-1 hover:gap-2 transition-all"
           >
             View Full Calendar <ArrowRight size={14} />
-          </a>
+          </Link>
         </div>
 
         <motion.div
@@ -37,17 +38,17 @@ export default function Events() {
           viewport={{ once: true }}
           className="grid gap-4"
         >
-          {EVENTS.map((e, i) => {
+          {EVENTS.map((e) => {
             const tc = TAG_COLORS[e.tag];
             return (
               <motion.div
-                key={i}
+                key={e.title}
                 variants={fadeUp}
                 whileHover={{
                   y: -2,
                   boxShadow: "0 12px 40px rgba(0,43,92,0.1)",
                 }}
-                className="bg-white rounded-[10px] p-6 sm:p-7 grid grid-cols-[auto_1fr] sm:grid-cols-[auto_1fr_auto] gap-5 sm:gap-6 items-center border border-border shadow-[0_2px_12px_rgba(0,43,92,0.06)] cursor-pointer"
+                className="bg-white rounded-[10px] p-6 sm:p-7 grid grid-cols-[auto_1fr] sm:grid-cols-[auto_1fr_auto] gap-5 sm:gap-6 items-center border border-border shadow-[0_2px_12px_rgba(0,43,92,0.06)]"
               >
                 {/* Date Block */}
                 <div className="w-[68px] h-[68px] rounded-[10px] bg-navy flex flex-col items-center justify-center flex-shrink-0">

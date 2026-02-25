@@ -48,7 +48,7 @@ export default function Resources() {
                   y: -4,
                   boxShadow: "0 12px 40px rgba(0,43,92,0.1)",
                 }}
-                className="bg-white rounded-[10px] p-7 border border-border shadow-[0_2px_12px_rgba(0,43,92,0.06)] flex gap-4 items-start cursor-pointer"
+                className="bg-white rounded-[10px] p-7 border border-border shadow-[0_2px_12px_rgba(0,43,92,0.06)] flex gap-4 items-start"
               >
                 <div className="w-11 h-11 rounded-lg bg-navy/[0.07] flex items-center justify-center flex-shrink-0">
                   <Icon size={20} className="text-navy" />

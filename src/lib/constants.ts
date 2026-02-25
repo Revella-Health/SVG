@@ -2,6 +2,16 @@
    SVG Association of Montreal - Constants
    ═══════════════════════════════════════════ */
 
+// TODO: Replace with real social media URLs when available
+export const SOCIAL_LINKS = {
+  facebook: "#",
+  instagram: "#",
+  youtube: "#",
+} as const;
+
+/** Height of the TopBar in px — used by Navigation for sticky offset */
+export const TOPBAR_HEIGHT = 33;
+
 export const C = {
   navy: "#002B5C",
   deepNavy: "#001631",
@@ -180,6 +190,7 @@ export const NEWS_ARTICLES = [
   },
 ] as const;
 
+// TODO: Replace placeholder names with real board member names
 export const BOARD_MEMBERS = [
   { name: "President Name", role: "President" },
   { name: "VP Name", role: "Vice President" },
@@ -194,6 +205,7 @@ export const CONTACT_INFO = [
     title: "Office & Meetings",
     lines: ["Community Centre", "Montreal, QC", "Saturday: 10am - 2pm"],
   },
+  // TODO: Replace placeholder phone number with real number
   { icon: "phone" as const, title: "Phone", lines: ["(514) 000-0000"] },
   { icon: "email" as const, title: "Email", lines: ["info@svgmontreal.ca"] },
 ] as const;

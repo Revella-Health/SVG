@@ -14,6 +14,9 @@ const iconMap = {
   email: Mail,
 } as const;
 
+// TODO: Replace with your real Formspree form ID (e.g. "xabcdefg")
+const FORMSPREE_URL = "https://formspree.io/f/YOUR_FORM_ID";
+
 export default function Contact() {
   const [form, setForm] = useState({
     name: "",
@@ -22,14 +25,31 @@ export default function Contact() {
     message: "",
   });
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
-    setTimeout(() => {
-      setSent(false);
+    setSending(true);
+    setError("");
+
+    try {
+      const res = await fetch(FORMSPREE_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) throw new Error("Failed to send message");
+
+      setSent(true);
       setForm({ name: "", email: "", subject: "", message: "" });
-    }, 3000);
+      setTimeout(() => setSent(false), 3000);
+    } catch {
+      setError("Something went wrong. Please try again or email us directly.");
+    } finally {
+      setSending(false);
+    }
   };
 
   const inputClass =
@@ -104,10 +124,14 @@ export default function Contact() {
                       },
                     ].map((f) => (
                       <div key={f.key}>
-                        <label className="text-xs font-semibold text-charcoal tracking-wide block mb-1.5">
+                        <label
+                          htmlFor={`contact-${f.key}`}
+                          className="text-xs font-semibold text-charcoal tracking-wide block mb-1.5"
+                        >
                           {f.label}
                         </label>
                         <input
+                          id={`contact-${f.key}`}
                           type={f.type}
                           required
                           value={form[f.key]}
@@ -119,10 +143,14 @@ export default function Contact() {
                       </div>
                     ))}
                     <div>
-                      <label className="text-xs font-semibold text-charcoal tracking-wide block mb-1.5">
+                      <label
+                        htmlFor="contact-message"
+                        className="text-xs font-semibold text-charcoal tracking-wide block mb-1.5"
+                      >
                         Message
                       </label>
                       <textarea
+                        id="contact-message"
                         rows={5}
                         required
                         value={form.message}
@@ -132,11 +160,15 @@ export default function Contact() {
                         className={`${inputClass} resize-y`}
                       />
                     </div>
+                    {error && (
+                      <p className="text-sm text-red-600">{error}</p>
+                    )}
                     <button
                       type="submit"
-                      className="bg-navy text-white font-semibold text-sm py-3.5 px-7 rounded-md border-none cursor-pointer mt-1 hover:bg-deep-navy transition-colors active:scale-[0.97]"
+                      disabled={sending}
+                      className="bg-navy text-white font-semibold text-sm py-3.5 px-7 rounded-md border-none cursor-pointer mt-1 hover:bg-deep-navy transition-colors active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      Send Message
+                      {sending ? "Sending…" : "Send Message"}
                     </button>
                   </form>
                 </motion.div>

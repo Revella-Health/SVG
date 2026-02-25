@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { MEMBERSHIP_PLANS } from "@/lib/constants";
@@ -110,8 +111,9 @@ export default function JoinPlans() {
                     </div>
                   ))}
                 </div>
-                <button
-                  className="w-full mt-6 py-3.5 rounded-lg text-sm font-semibold cursor-pointer transition-all duration-200 active:scale-[0.97]"
+                <Link
+                  href={`/contact?plan=${encodeURIComponent(p.name)}`}
+                  className="block w-full mt-6 py-3.5 rounded-lg text-sm font-semibold text-center no-underline transition-all duration-200 active:scale-[0.97]"
                   style={{
                     background: p.featured ? "#FCD116" : "transparent",
                     color: p.featured ? "#001631" : p.color,
@@ -119,7 +121,7 @@ export default function JoinPlans() {
                   }}
                 >
                   Join as {p.name}
-                </button>
+                </Link>
               </div>
             </motion.div>
           ))}
