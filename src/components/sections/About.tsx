@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Button from "@/components/ui/Button";
@@ -54,13 +55,14 @@ export default function About() {
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
           >
-            <div className="rounded-xl bg-gradient-to-br from-navy/[0.08] to-green/[0.04] p-10 flex items-center justify-center min-h-[240px] mb-5 border border-dashed border-border">
-              <div className="text-center opacity-40">
-                <div className="text-6xl">📸</div>
-                <div className="text-[13px] text-muted mt-2">
-                  Community Photo Here
-                </div>
-              </div>
+            <div className="rounded-xl overflow-hidden min-h-[240px] mb-5 relative">
+              <Image
+                src="/community-speaker.jpeg"
+                alt="Community leader speaking at an SVG Association event"
+                width={600}
+                height={400}
+                className="object-cover w-full h-[280px] rounded-xl"
+              />
             </div>
             <div className="grid grid-cols-2 gap-3">
               {values.map((v) => (
@@ -91,6 +93,21 @@ export default function About() {
           >
             Meet the Board
           </motion.h3>
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="rounded-xl overflow-hidden mb-8"
+          >
+            <Image
+              src="/leadership-gala.jpeg"
+              alt="SVG Association board members at a formal gala dinner"
+              width={1200}
+              height={500}
+              className="object-cover w-full h-[340px] rounded-xl"
+            />
+          </motion.div>
           <motion.div
             variants={staggerContainer}
             initial="hidden"

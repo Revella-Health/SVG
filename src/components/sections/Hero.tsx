@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import SectionHeader from "@/components/ui/SectionHeader";
@@ -55,20 +56,26 @@ export default function Hero() {
         }}
       />
 
-      {/* Right-side image placeholder */}
+      {/* Right-side hero image */}
       <div
-        className="absolute right-0 top-0 bottom-0 w-[45%] hidden lg:flex items-center justify-center"
+        className="absolute right-0 top-0 bottom-0 w-[45%] hidden lg:block overflow-hidden"
         style={{
-          background: "linear-gradient(135deg, rgba(0,43,92,0.9), rgba(0,82,165,0.7))",
           clipPath: "polygon(15% 0, 100% 0, 100% 100%, 0% 100%)",
         }}
       >
-        <div className="text-center opacity-20">
-          <div className="text-7xl mb-3">🏝️</div>
-          <div className="text-[13px] text-white tracking-[2px] uppercase">
-            Community Photo
-          </div>
-        </div>
+        <Image
+          src="/hero-community.jpeg"
+          alt="Beach in St. Vincent and the Grenadines"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(135deg, rgba(0,43,92,0.45), rgba(0,82,165,0.3))",
+          }}
+        />
       </div>
 
       <Container className="relative z-[3] pt-36 pb-20">

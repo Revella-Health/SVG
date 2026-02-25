@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Container from "@/components/ui/Container";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Button from "@/components/ui/Button";
@@ -34,16 +35,13 @@ export default function MembershipPreview() {
             whileHover={{ y: -4, boxShadow: "0 12px 40px rgba(0,43,92,0.1)" }}
             className="bg-white rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(0,43,92,0.06)] border border-border"
           >
-            <div
-              className="h-[180px] flex items-center justify-center relative"
-              style={{ background: "linear-gradient(135deg, #002B5C, #0052A5)" }}
-            >
-              <div className="text-center">
-                <div className="text-5xl mb-2 opacity-50">👤</div>
-                <div className="text-[11px] text-white/50 tracking-[2px] uppercase">
-                  Photo Placeholder
-                </div>
-              </div>
+            <div className="h-[180px] relative overflow-hidden">
+              <Image
+                src="/community-event.jpeg"
+                alt="Community members celebrating at an SVG Association gala"
+                fill
+                className="object-cover"
+              />
             </div>
             <div className="p-8">
               <h3 className="font-display text-[22px] text-charcoal mb-2">
@@ -66,16 +64,13 @@ export default function MembershipPreview() {
             whileHover={{ y: -4, boxShadow: "0 12px 40px rgba(0,43,92,0.1)" }}
             className="bg-white rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(0,43,92,0.06)] border border-border"
           >
-            <div
-              className="h-[180px] flex items-center justify-center"
-              style={{ background: "linear-gradient(135deg, #009739, #00B84D)" }}
-            >
-              <div className="text-center">
-                <div className="text-5xl mb-2 opacity-50">🤝</div>
-                <div className="text-[11px] text-white/50 tracking-[2px] uppercase">
-                  Photo Placeholder
-                </div>
-              </div>
+            <div className="h-[180px] relative overflow-hidden">
+              <Image
+                src="/leadership-gala.jpeg"
+                alt="SVG Association leadership at a formal event"
+                fill
+                className="object-cover"
+              />
             </div>
             <div className="p-8">
               <h3 className="font-display text-[22px] text-charcoal mb-2">
